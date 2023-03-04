@@ -13,8 +13,14 @@ public class MainController {
         return "MAIN PAGE";
     }
 
-    @GetMapping (path = "/message/{m}")
-    public String showMessage(@PathVariable("m") String message) {
-        return "YOUR MESSAGE IS : " + message;
+    @GetMapping ({"/message", "/message/{m}"})
+    public String showMessage(@PathVariable(name = "m", required = false) String message) {
+        // required parameter is "true" in default
+
+        if (message == null || message.isEmpty()) {
+            return "NO MESSAGE";
+        } else {
+            return "YOUR MESSAGE IS : " + message;
+        }
     }
 }

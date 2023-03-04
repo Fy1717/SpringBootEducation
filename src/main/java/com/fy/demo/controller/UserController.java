@@ -1,5 +1,8 @@
 package com.fy.demo.controller;
 
+import com.fy.demo.model.User;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,9 +29,30 @@ public class UserController {
         return "get one user";
     }
 
-    @PostMapping(path = "")
-    public String addUser() {
-        return "add user";
+    //@PostMapping(path = "")
+    //public String addUser() {
+    //    return "add user";
+    //}
+
+
+    // Path defined as add
+    // Returns defined as User class
+    // It's a post request function, user informations getted from user in requestBody
+    @PostMapping(path = "/add")
+    public User addUser(@RequestBody User user) {
+        System.out.println("add user : " + user);
+
+        if (user.getName() != null && user.getSurname() != null &&
+                user.getEmail() != null && user.getPassword() != null &&
+                user.getUsername() != null) {
+            System.out.println("USER SAVED : " + user.getEmail() + " " + user.getSurname());
+
+            return user;
+        } else {
+            System.out.println("USER COULDNT SAVE : " + user.getName() + " " + user.getSurname());
+
+            return user;
+        }
     }
 
     @PutMapping(path = "/1")
@@ -36,13 +60,13 @@ public class UserController {
         return "update user with id 1";
     }
 
-    @PatchMapping(path = "/1")
-    public String updateUsersField() {
-        return "update users field";
-    }
-
     @DeleteMapping(path = "/1")
     public String deleteUser() {
         return "delete user";
+    }
+
+    @PatchMapping(path = "/1")
+    public String updateUsersField() {
+        return "update users field";
     }
 }
